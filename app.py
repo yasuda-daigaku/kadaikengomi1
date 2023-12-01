@@ -1,5 +1,6 @@
 # 以下を「app.py」に書き込み
-pip install protobuf
+-m pip install --upgrade pip
+-m pip install --upgrade tensorflow==2.9.2 tensorboard==2.9.1 protobuf==3.9.2
 import streamlit as st
 import matplotlib.pyplot as plt
 from tensorflow import keras
