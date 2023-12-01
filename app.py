@@ -1,4 +1,5 @@
 # 以下を「app.py」に書き込み
+pip install protobuf
 import streamlit as st
 import matplotlib.pyplot as plt
 from tensorflow import keras
