@@ -32,7 +32,7 @@ if img_file is not None:
         image = Image.open(img_file)
         size = (224, 224)
         # 画像をセンタリングし指定したsizeに切り出す処理
-        image = ImageOps.fit(image, size, Image.ANTIALIAS)
+        image = ImageOps.fit(image, size, method=0, bleed=0.0, centering=(0.5, 0.5))
         st.image(image, caption="対象の画像", width=480)
         st.write("")
         image_array = np.asarray(image)
@@ -56,6 +56,17 @@ if img_file is not None:
         ax.pie(pie_probs, labels=pie_labels, counterclock=False, startangle=90,
                textprops=textprops, autopct="%.2f", wedgeprops=wedgeprops)  # 円グラフ
         st.pyplot(fig)
+      
+        # 80%以上の確率を示したラベルの取得
+        high_prob_labels = [class_names[i] for i, prob in enumerate(prediction[0]) if prob >= 0.8]
+
+      # ラベルと説明を表示
+if len(high_prob_labels) >= 5:
+    st.subheader('結果')
+    st.write("この画像は以下のラベルである可能性があります:")
+    for label in high_prob_labels:
+        st.write(f"- {label}")
+      
         # 一覧表の表示
         st.subheader('一覧表')
         st.write(pd.DataFrame(pie_probs,pie_labels))
