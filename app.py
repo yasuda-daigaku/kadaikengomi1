@@ -71,11 +71,6 @@ if len(high_prob_labels) >= 5:
 else:
     st.subheader('結果')
     st.write("この画像に関する適切なラベルが見つかりませんでした。")
-
-# 一覧表の表示
-st.subheader('一覧表')
-st.write(pd.DataFrame(pie_probs, pie_labels))
-
       
         # 一覧表の表示
         st.subheader('一覧表')
