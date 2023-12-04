@@ -56,16 +56,26 @@ if img_file is not None:
         ax.pie(pie_probs, labels=pie_labels, counterclock=False, startangle=90,
                textprops=textprops, autopct="%.2f", wedgeprops=wedgeprops)  # 円グラフ
         st.pyplot(fig)
-      
-        # 60%以上の確率を示したラベルの取得
-        high_prob_labels = [class_names[i] for i, prob in enumerate(prediction[0]) if prob >= 0.6]
 
-      # ラベルと説明を表示
+# 60%以上の確率を示したラベルの取得
+high_prob_labels = [class_names[i] for i, prob in enumerate(prediction[0]) if prob >= 0.6]
+
+# ラベルと説明を表示
 if len(high_prob_labels) >= 5:
     st.subheader('結果')
     st.write("この画像は以下のラベルである可能性があります:")
     for label in high_prob_labels:
-        st.write(f"- {label}")
+        # ラベルに対応する説明を取得して表示
+        label_description = get_label_description(label)
+        st.write(f"- {label}: {label_description}")
+else:
+    st.subheader('結果')
+    st.write("この画像に関する適切なラベルが見つかりませんでした。")
+
+# 一覧表の表示
+st.subheader('一覧表')
+st.write(pd.DataFrame(pie_probs, pie_labels))
+
       
         # 一覧表の表示
         st.subheader('一覧表')
