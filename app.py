@@ -57,8 +57,8 @@ if img_file is not None:
                textprops=textprops, autopct="%.2f", wedgeprops=wedgeprops)  # 円グラフ
         st.pyplot(fig)
       
-        # 80%以上の確率を示したラベルの取得
-        high_prob_labels = [class_names[i] for i, prob in enumerate(prediction[0]) if prob >= 0.8]
+        # 60%以上の確率を示したラベルの取得
+        high_prob_labels = [class_names[i] for i, prob in enumerate(prediction[0]) if prob >= 0.6]
 
       # ラベルと説明を表示
 if len(high_prob_labels) >= 5:
