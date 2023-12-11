@@ -20,16 +20,15 @@ def get_disposal_method(class_name):
     }
     return disposal_methods.get(class_name, "特定できるゴミの捨て方がありません。")
 
-def get_recycle_method(class_name)
-     # ゴミのリサイクル方法の説明を返す関数
-    recycle_methods = {
-        "ペットボトル": "ペットボトルのリサイクルは、。",
-        "ビニール袋": ビニール袋のリサイクルは"",
-        "段ボール": "段ボールのリサイクルは",
-        "カイロ": "カイロのリサイクルは",
-        "紙パック": "紙パッのリサイクルは",
+def get_recycle_method(class_name):
+    recycle_method = {
+        "ペットボトル": "ペットボトルのリサイクルは...",
+        "ビニール袋": "ビニール袋のリサイクルは...",
+        "段ボール": "段ボールのリサイクルは...",
+        "カイロ": "カイロのリサイクルは...",
+        "紙パック": "紙パックのリサイクルは...",
     }
-    return recycle_methods.get(class_name, "特定できるゴミのリサイクル方法がありません。")
+    return recycle_method.get(class_name, "特定できるゴミのリサイクル方法がありません。")
 
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
