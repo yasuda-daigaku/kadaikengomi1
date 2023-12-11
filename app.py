@@ -22,6 +22,19 @@ def get_disposal_method(class_name):
 
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
+def get_recycle_method(class_name)
+     # ゴミのリサイクル方法の説明を返す関数
+    recycle_methods = {
+        "ペットボトル": "ペットボトルのリサイクルは、。",
+        "ビニール袋": ビニール袋のリサイクルは"",
+        "段ボール": "段ボールのリサイクルは",
+        "カイロ": "カイロのリサイクルは",
+        "紙パック": "紙パッのリサイクルは",
+    }
+    return disposal_methods.get(class_name, "特定できるゴミの捨て方がありません。")
+
+st.set_option("deprecation.showfileUploaderEncoding", False)
+
 st.sidebar.title("ゴミ分別アプリ")
 st.sidebar.write("Teachable Machineの学習モデルを使って画像判定します。")
 
@@ -83,3 +96,11 @@ if img_file is not None:
         st.subheader('ゴミの捨て方の説明')
         for explanation in explanations:
             st.write(explanation)
+
+        # ゴミのリサイクル過程
+        st.subheader('f"{class_names[idx]}のリサイクル過程')
+        for explanation in explanations:
+            st.write(explanation)
+        
+        
+        
