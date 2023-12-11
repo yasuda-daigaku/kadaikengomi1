@@ -98,7 +98,7 @@ if img_file is not None:
             st.write(explanation)
 
         # ゴミのリサイクル過程
-        st.subheader('f"{class_names[idx]}のリサイクル過程')
+        st.subheader('リサイクル過程')
         for explanation in explanations:
             st.write(explanation)
         
