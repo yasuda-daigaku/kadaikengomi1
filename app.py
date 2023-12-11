@@ -75,7 +75,7 @@ if img_file is not None:
                     f"\nゴミのリサイクル方法の説明: {get_recycle_method(class_names[idx])}"
                 )
             if not explanations:
-    explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
+                explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
     
         # 円グラフの表示
         pie_labels = class_names
