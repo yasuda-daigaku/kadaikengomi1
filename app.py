@@ -67,17 +67,16 @@ if img_file is not None:
 
         # 説明文の生成
         explanations = []
-for idx, prob in enumerate(prediction[0]):
-    if prob >= 0.6:
-        explanations.append(
-            f"{class_names[idx]}が{prob * 100:.2f}%の確率で検出されました。"
-            f"\nゴミの捨て方の説明: {get_disposal_method(class_names[idx])}"
-            f"\nゴミのリサイクル方法の説明: {get_recycle_method(class_names[idx])}"
-        )
-
-        if not explanations:
-            explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
-
+        for idx, prob in enumerate(prediction[0]):
+            if prob >= 0.6:
+                explanations.append(
+                    f"{class_names[idx]}が{prob * 100:.2f}%の確率で検出されました。"
+                    f"\nゴミの捨て方の説明: {get_disposal_method(class_names[idx])}"
+                    f"\nゴミのリサイクル方法の説明: {get_recycle_method(class_names[idx])}"
+                )
+            if not explanations:
+    explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
+    
         # 円グラフの表示
         pie_labels = class_names
         pie_probs = prediction[0]
