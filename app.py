@@ -9,6 +9,17 @@ import pandas as pd
 model = load_model('keras_model.h5')
 class_names = ["ペットボトル", "ビニール袋", "段ボール", "カイロ", "紙パック"]
 
+def get_disposal_method(class_name):
+    # ゴミの捨て方の説明を返す関数
+    disposal_methods = {
+        "ペットボトル": "リサイクルしてください。",
+        "ビニール袋": "資源ごみとして分別してください。",
+        "段ボール": "資源ごみとして分別してください。",
+        "カイロ": "可燃ごみとして捨ててください。",
+        "紙パック": "資源ごみとして分別してください。",
+    }
+    return disposal_methods.get(class_name, "特定できるゴミの捨て方がありません。")
+
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
 st.sidebar.title("AI画像認識アプリ")
@@ -72,15 +83,3 @@ if img_file is not None:
         st.subheader('ゴミの捨て方の説明')
         for explanation in explanations:
             st.write(explanation)
-
-
-def get_disposal_method(class_name):
-    # ゴミの捨て方の説明を返す関数
-    disposal_methods = {
-        "ペットボトル": "リサイクルしてください。",
-        "ビニール袋": "資源ごみとして分別してください。",
-        "段ボール": "資源ごみとして分別してください。",
-        "カイロ": "可燃ごみとして捨ててください。",
-        "紙パック": "資源ごみとして分別してください。",
-    }
-    return disposal_methods.get(class_name, "特定できるゴミの捨て方がありません。")
