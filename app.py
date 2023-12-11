@@ -20,8 +20,6 @@ def get_disposal_method(class_name):
     }
     return disposal_methods.get(class_name, "特定できるゴミの捨て方がありません。")
 
-st.set_option("deprecation.showfileUploaderEncoding", False)
-
 def get_recycle_method(class_name)
      # ゴミのリサイクル方法の説明を返す関数
     recycle_methods = {
@@ -31,12 +29,12 @@ def get_recycle_method(class_name)
         "カイロ": "カイロのリサイクルは",
         "紙パック": "紙パッのリサイクルは",
     }
-    return disposal_methods.get(class_name, "特定できるゴミの捨て方がありません。")
+    return recycle_methods.get(class_name, "特定できるゴミのリサイクル方法がありません。")
 
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
 st.sidebar.title("ゴミ分別アプリ")
-st.sidebar.write("Teachable Machineの学習モデルを使って画像判定します。")
+st.sidebar.write("Teachable Machineの学習モデルを使って画像判定を行います。")
 
 st.sidebar.write("")
 
@@ -74,7 +72,7 @@ if img_file is not None:
             if prob >= 0.6:
                 explanations.append(f"{class_names[idx]}が{prob * 100:.2f}%の確率で検出されました。"
                                     f"\nゴミの捨て方の説明: {get_disposal_method(class_names[idx])}")
-
+                                    f"\nゴミのリサイクル方法の説明: {get_recycle_method(class_names[idx])}")
         if not explanations:
             explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
 
@@ -88,6 +86,7 @@ if img_file is not None:
         ax.pie(pie_probs, labels=None, counterclock=False, startangle=90,
                textprops=textprops, autopct="%.2f", wedgeprops=wedgeprops)  # 円グラフ
         st.pyplot(fig)
+        
         # 一覧表の表示
         st.subheader('一覧表')
         st.write(pd.DataFrame(pie_probs, pie_labels))
