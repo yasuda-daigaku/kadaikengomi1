@@ -1,4 +1,3 @@
-# 以下を「app.py」に書き込み
 import streamlit as st
 import matplotlib.pyplot as plt
 from tensorflow import keras
@@ -6,10 +5,9 @@ from keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
 import pandas as pd
-import os
 
 model = load_model('keras_model.h5')
-class_names = open('labels.txt', 'r').readlines()
+class_names = ["ペットボトル", "ビニール袋", "段ボール", "カイロ", "紙パック"]
 
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
@@ -40,38 +38,49 @@ if img_file is not None:
 
         # 例外処理
         try:
-          data[0] = normalized_image_array
+            data[0] = normalized_image_array
         except Exception as e:
-          st.write(e)
+            st.write(e)
         else:
-          prediction = model.predict(data)
+            prediction = model.predict(data)
+
+        # 説明文の生成
+        explanations = []
+        for idx, prob in enumerate(prediction[0]):
+            if prob >= 0.6:
+                explanations.append(f"{class_names[idx]}が{prob * 100:.2f}%の確率で検出されました。"
+                                    f"\nゴミの捨て方の説明: {get_disposal_method(class_names[idx])}")
+
+        if not explanations:
+            explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
 
         # 円グラフの表示
         pie_labels = class_names
         pie_probs = prediction[0]
         st.subheader('円グラフ')
         fig, ax = plt.subplots()
-        wedgeprops={"width":0.3, "edgecolor":"white"}
-        textprops = {"fontsize":6}
-        ax.pie(pie_probs, labels=pie_labels, counterclock=False, startangle=90,
+        wedgeprops = {"width": 0.3, "edgecolor": "white"}
+        textprops = {"fontsize": 6}
+        ax.pie(pie_probs, labels=None, counterclock=False, startangle=90,
                textprops=textprops, autopct="%.2f", wedgeprops=wedgeprops)  # 円グラフ
         st.pyplot(fig)
+        # 一覧表の表示
+        st.subheader('一覧表')
+        st.write(pd.DataFrame(pie_probs, pie_labels))
 
-# 60%以上の確率を示したラベルの取得
-high_prob_labels = [class_names[i] for i, prob in enumerate(prediction[0]) if prob >= 0.6]
+        # 説明文の表示
+        st.subheader('ゴミの捨て方の説明')
+        for explanation in explanations:
+            st.write(explanation)
 
-# ラベルと説明を表示
-if len(high_prob_labels) >= 5:
-    st.subheader('結果')
-    st.write("この画像は以下のラベルである可能性があります:")
-    for label in high_prob_labels:
-        # ラベルに対応する説明を取得して表示
-        label_description = get_label_description(label)
-        st.write(f"- {label}: {label_description}")
-else:
-    st.subheader('結果')
-    st.write("この画像に関する適切なラベルが見つかりませんでした。")
-      
-# 一覧表の表示
-st.subheader('一覧表')
-st.write(pd.DataFrame(pie_probs,pie_labels))
+
+def get_disposal_method(class_name):
+    # ゴミの捨て方の説明を返す関数
+    disposal_methods = {
+        "ペットボトル": "リサイクルしてください。",
+        "ビニール袋": "資源ごみとして分別してください。",
+        "段ボール": "資源ごみとして分別してください。",
+        "カイロ": "可燃ごみとして捨ててください。",
+        "紙パック": "資源ごみとして分別してください。",
+    }
+    return disposal_methods.get(class_name, "特定できるゴミの捨て方がありません。")
