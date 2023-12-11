@@ -67,7 +67,7 @@ if img_file is not None:
 
         # 説明文の生成
         disposal_explanations = []
-        explanations = []
+        recycle_explanations = []
         for idx, prob in enumerate(prediction[0]):
             if prob >= 0.6:
                 disposal_explanation = (
@@ -80,9 +80,10 @@ if img_file is not None:
 
                 disposal_explanations.append(disposal_explanation)
                 recycle_explanations.append(recycle_explanation)
-                
-        if not disposal_explanations:
-            disposal_explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
+            else:
+                # prob >= 0.6 の条件を満たさない場合の初期化
+                disposal_explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
+                recycle_explanations.append("このゴミに関するリサイクル方法の情報がありません。")
     
         # 円グラフの表示
         pie_labels = class_names
@@ -108,6 +109,3 @@ if img_file is not None:
         st.subheader('リサイクル過程')
         for explanation in recycle_explanations:
             st.write(explanation)
-        
-        
-        
