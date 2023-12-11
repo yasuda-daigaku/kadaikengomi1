@@ -83,7 +83,6 @@ if img_file is not None:
                 
         if not disposal_explanations:
             disposal_explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
-            recycle_explanations.append(")
     
         # 円グラフの表示
         pie_labels = class_names
