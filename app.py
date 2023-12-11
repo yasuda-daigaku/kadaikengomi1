@@ -66,16 +66,24 @@ if img_file is not None:
             prediction = model.predict(data)
 
         # 説明文の生成
+        disposal_explanations = []
         explanations = []
         for idx, prob in enumerate(prediction[0]):
             if prob >= 0.6:
-                explanations.append(
+                disposal_explanation = (
                     f"{class_names[idx]}が{prob * 100:.2f}%の確率で検出されました。"
                     f"\nゴミの捨て方の説明: {get_disposal_method(class_names[idx])}"
+                )
+                recycle_explanation = (
                     f"\nゴミのリサイクル方法の説明: {get_recycle_method(class_names[idx])}"
                 )
-            if not explanations:
-                explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
+
+                disposal_explanations.append(disposal_explanation)
+                recycle_explanations.append(recycle_explanation)
+                
+        if not disposal_explanations:
+            disposal_explanations.append("60%以上の確率で検出されたクラスはありませんでした。")
+            recycle_explanations.append(")
     
         # 円グラフの表示
         pie_labels = class_names
@@ -94,12 +102,12 @@ if img_file is not None:
 
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
-        for explanation in explanations:
+        for explanation in disposal_explanations:
             st.write(explanation)
 
         # ゴミのリサイクル過程
         st.subheader('リサイクル過程')
-        for explanation in explanations:
+        for explanation in recycle_explanations:
             st.write(explanation)
         
         
