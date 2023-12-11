@@ -22,7 +22,7 @@ def get_disposal_method(class_name):
 
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
-st.sidebar.title("AI画像認識アプリ")
+st.sidebar.title("ゴミ分別アプリ")
 st.sidebar.write("Teachable Machineの学習モデルを使って画像判定します。")
 
 st.sidebar.write("")
