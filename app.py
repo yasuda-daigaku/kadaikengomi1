@@ -86,6 +86,8 @@ if img_file is not None:
                 recycle_explanations.append("このゴミに関するリサイクル方法の情報がありません。")
     
         # 円グラフの表示
+        pie_labels = class_names
+        pie_probs = prediction[0]
         st.subheader('円グラフ')
         fig, ax = plt.subplots()
         wedgeprops = {"width": 0.3, "edgecolor": "white"}
