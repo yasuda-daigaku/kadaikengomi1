@@ -60,8 +60,8 @@ if img_file is not None:
         # 例外処理
         try:
             data[0] = normalized_image_array
-        except Exception as e:
-            st.write(e)
+        except (ValueError, IndexError) as e:
+            st.write(f"画像データの設定エラー: {e}")
         else:
             prediction = model.predict(data)
 
@@ -86,15 +86,13 @@ if img_file is not None:
                 recycle_explanations.append("このゴミに関するリサイクル方法の情報がありません。")
     
         # 円グラフの表示
-        pie_labels = class_names
-        pie_probs = prediction[0]
         st.subheader('円グラフ')
         fig, ax = plt.subplots()
         wedgeprops = {"width": 0.3, "edgecolor": "white"}
         textprops = {"fontsize": 6}
         ax.pie(pie_probs, labels=None, counterclock=False, startangle=90,
                textprops=textprops, autopct="%.2f", wedgeprops=wedgeprops)  # 円グラフ
-        st.pyplot(fig)
+        st.pyplot()
         
         # 一覧表の表示
         st.subheader('一覧表')
