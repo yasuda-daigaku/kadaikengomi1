@@ -102,10 +102,16 @@ if img_file is not None:
 
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
-        for explanation in disposal_explanations:
-            st.write(explanation)
+        detected_classes = [class_names[idx] for idx, prob in enumerate(prediction[0]) if prob >= 0.6]
+        for class_name in detected_classes:
+            st.subheader(f"{class_name}の説明:")
+            st.write(f"{class_name}が60%以上の確率で検出されました。")
+            st.write(f"ゴミの捨て方の説明: {get_disposal_method(class_name)}")
+            st.write("")
 
         # ゴミのリサイクル過程
         st.subheader('リサイクル過程')
-        for explanation in recycle_explanations:
-            st.write(explanation)
+        for class_name in detected_classes:
+            st.subheader(f"{class_name}のリサイクル過程:")
+            st.write(f"ゴミのリサイクル方法の説明: {get_recycle_method(class_name)}")
+            st.write("")
