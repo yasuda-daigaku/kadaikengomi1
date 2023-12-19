@@ -97,7 +97,9 @@ if img_file is not None:
 
         # 一覧表の表示
         st.subheader('一覧表')
-        st.write(pd.DataFrame(bar_probs, bar_labels))
+        df_prob = pd.DataFrame(bar_probs, bar_labels, columns=['確率'])
+        df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.3f}%")
+        st.write(df_prob)
 
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
@@ -112,5 +114,4 @@ if img_file is not None:
         st.subheader('リサイクル過程')
         for class_name in detected_classes:
             st.subheader(f"{class_name}のリサイクル過程:")
-            st.write(f"ゴミのリサイクル方法の説明: {get_recycle_method(class_name)}")
-            st.write("")
+            st.write(f"ゴミのリサイクル方法の説明: {get_recycle_method(class_name)}
