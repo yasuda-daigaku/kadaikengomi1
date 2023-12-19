@@ -114,4 +114,4 @@ if img_file is not None:
         st.subheader('リサイクル過程')
         for class_name in detected_classes:
             st.subheader(f"{class_name}のリサイクル過程:")
-            st.write(f"ゴミのリサイクル方法の説明: {get_recycle_method(class_name)}
+            st.write(f"ゴミのリサイクル方法の説明: {get_recycle_method(class_name)}")
