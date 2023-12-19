@@ -1,6 +1,5 @@
 import streamlit as st
 import matplotlib.pyplot as plt
-import seaborn as sns
 from tensorflow import keras
 from keras.models import load_model
 from PIL import Image, ImageOps
@@ -8,11 +7,10 @@ import numpy as np
 import pandas as pd
 
 # フォントの設定
-sns.set(font_scale=1.5)
 font_dict = {'family': 'serif', 'color': 'darkred', 'weight': 'normal', 'size': 12}
 
-# 色の設定
-colors = sns.color_palette("pastel")
+# カラーの設定
+colors = plt.cm.Paired(np.arange(len(class_names)))
 
 # モデルとクラスの読み込み
 model = load_model('keras_model.h5')
