@@ -75,13 +75,14 @@ if img_file is not None:
         st.subheader('棒グラフと折れ線グラフ')
         bar_labels = class_names
         bar_probs = prediction[0]
-        sns.barplot(x=bar_probs, y=bar_labels, palette=colors, ax=ax, label="棒グラフ")
-        
+        sns.barplot(x=bar_probs, y=bar_labels, color=colors[0], ax=ax, label="棒グラフ")  # palette を color に修正
+
         # 折れ線グラフ
         line_labels = class_names
         line_probs = prediction[0]
         ax2 = ax.twiny()
         sns.lineplot(x=line_probs, y=line_labels, marker="o", ax=ax2, sort=False, color=colors[1], label="折れ線グラフ")
+
         
         # 軸ラベルの設定
         ax.set_xlabel('確率', fontdict=font_dict)
