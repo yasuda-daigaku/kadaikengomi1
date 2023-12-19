@@ -10,12 +10,6 @@ import pandas as pd
 model = load_model('keras_model.h5')
 class_names = ["ペットボトル", "ビニール袋", "段ボール", "カイロ", "紙パック"]
 
-# フォントの設定
-font_dict = {'family': 'serif', 'color': 'darkred', 'weight': 'normal', 'size': 12}
-
-# カラーの設定
-colors = plt.cm.Paired(np.arange(len(class_names)))
-
 # ゴミの捨て方とリサイクル方法の関数
 def get_disposal_method(class_name):
     disposal_methods = {"ペットボトル": "リサイクルしてください。",
@@ -68,22 +62,6 @@ if img_file is not None:
         else:
             prediction = model.predict(data)
 
-        # グラフの表示
-        fig, ax = plt.subplots(figsize=(10, 6))
-        
-        # 棒グラフ
-        st.subheader('棒グラフと折れ線グラフ')
-        bar_labels = class_names
-        bar_probs = prediction[0]
-        sns.barplot(x=bar_probs, y=bar_labels, color=colors[0], ax=ax, label="棒グラフ")  # palette を color に修正
-
-        # 折れ線グラフ
-        line_labels = class_names
-        line_probs = prediction[0]
-        ax2 = ax.twiny()
-        sns.lineplot(x=line_probs, y=line_labels, marker="o", ax=ax2, sort=False, color=colors[1], label="折れ線グラフ")
-
-        
         # 軸ラベルの設定
         ax.set_xlabel('確率', fontdict=font_dict)
         ax2.set_xlabel('確率', fontdict=font_dict)
