@@ -68,43 +68,40 @@ if img_file is not None:
         else:
             prediction = model.predict(data)
 
-            # プロットの初期化
-            fig, (ax, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+        # プロットの初期化
+        fig, ax = plt.subplots(figsize=(8, 6))
 
-            # 軸ラベルの設定
-            ax.set_xlabel('確率')
-            ax2.set_xlabel('確率')
+        # 軸ラベルの設定
+        ax.set_ylabel('確率')
+        ax.set_xlabel('クラス')
 
-            # 凡例の表示
-            ax.legend(loc='upper right')
-            ax2.legend(loc='upper left')
+        # データをプロット
+        ax.bar(class_names, prediction[0], color='blue')
 
-            # データをプロット
-            ax.barh(class_names, prediction[0], color='blue')
-            ax2.barh(class_names, prediction[0], color='blue')
+        # グリッドを表示
+        ax.grid(True)
 
-            # Streamlitでグラフを表示
-            st.pyplot(fig)
+        st.pyplot(fig)
 
-            # 一覧表の表示
-            st.subheader('一覧表')
-            df_prob = pd.DataFrame(prediction, columns=class_names)
-            df_prob = df_prob.T.reset_index()
-            df_prob.columns = ['クラス', '確率']
-            df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.3f}%")
-            st.table(df_prob)
+        # 一覧表の表示
+        st.subheader('一覧表')
+        df_prob = pd.DataFrame(prediction, columns=class_names)
+        df_prob = df_prob.T.reset_index()
+        df_prob.columns = ['クラス', '確率']
+        df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.3f}%")
+        st.write(df_prob)
 
-            # 説明文の表示
-            st.subheader('ゴミの捨て方の説明')
-            detected_classes = [class_names[idx] for idx, prob in enumerate(prediction[0]) if prob >= 0.6]
-            for class_name in detected_classes:
-                st.subheader(f"{class_name}の説明:")
-                st.write(f"{class_name}が60%以上の確率で検出されました。")
-                st.write(f"ゴミの捨て方の説明: {get_disposal_method(class_name)}")
-                st.write("")
+        # 説明文の表示
+        st.subheader('ゴミの捨て方の説明')
+        detected_classes = [class_names[idx] for idx, prob in enumerate(prediction[0]) if prob >= 0.6]
+        for class_name in detected_classes:
+            st.subheader(f"{class_name}の説明:")
+            st.write(f"{class_name}が60%以上の確率で検出されました。")
+            st.write(f"ゴミの捨て方の説明: {get_disposal_method(class_name)}")
+            st.write("")
 
-            # ゴミのリサイクル過程
-            st.subheader('リサイクル過程')
-            for class_name in detected_classes:
-                st.subheader(f"{class_name}のリサイクル過程:")
-                st.write(f"ゴミのリサイクル方法の説明: {get_recycle_method(class_name)}")
+        # ゴミのリサイクル過程
+        st.subheader('リサイクル過程')
+        for class_name in detected_classes:
+            st.subheader(f"{class_name}のリサイクル過程:")
+            st.write(f"ゴミのリサイクル方法の説明: {get_recycle_method(class_name)}")
