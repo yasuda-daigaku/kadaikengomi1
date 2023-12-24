@@ -69,7 +69,7 @@ if img_file is not None:
             prediction = model.predict(data)
 
         # プロットの初期化
-        fig, ax = plt.subplots(figsize=(8, 2))
+        fig, ax = plt.subplots(figsize=(10, 6))
 
         # 棒グラフのプロット
         bar_labels = class_names
@@ -92,7 +92,7 @@ if img_file is not None:
         df_prob = df_prob.T.reset_index()
         df_prob.columns = ['クラス', '確率']
         df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.3f}%")
-        st.write(df_prob)
+        st.table(df_prob)
 
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
