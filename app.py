@@ -51,7 +51,7 @@ elif img_source == "カメラで撮影":
 
 # 画像が選択された場合の処理
 if img_file is not None:
-    with st.spinner("画像から推定中です..."):
+    with st.spinner("推定中..."):
         # 画像の前処理
         image = Image.open(img_file)
         size = (224, 224)
@@ -75,8 +75,15 @@ if img_file is not None:
         ax.set_xlabel('確率')
         ax2.set_xlabel('確率')
 
-        # プロットを表示
+        # 凡例の表示
+        ax.legend(loc='upper right')
+        ax2.legend(loc='upper left')
+
+        # グラフを表示
         plt.show()
+
+        # Streamlitでグラフを表示
+        st.pyplot(fig)
 
         # 一覧表の表示
         st.subheader('一覧表')
