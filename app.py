@@ -8,7 +8,7 @@ import pandas as pd
 
 # モデルとクラスの読み込み
 model = load_model('keras_model.h5')
-class_names = ["PET Bottle", "Plastic Bag", "Cardboard", "Hand Warmer", "Paper Pack"]
+class_names = ["ペットボトル", "ビニール袋", "段ボール", "カイロ", "紙パック"]
 
 # ゴミの捨て方とリサイクル方法の関数
 def get_disposal_method(class_name):
@@ -72,7 +72,7 @@ if img_file is not None:
         fig, ax = plt.subplots(figsize=(10, 6))
 
         # 棒グラフのプロット
-        bar_labels = class_names
+        bar_labels = ["PET Bottle", "Plastic Bag", "Cardboard", "Hand Warmer", "Paper Pack"]
         bar_probs = prediction[0]
 
         ax.bar(bar_labels, bar_probs, label='Probability')
