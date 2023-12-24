@@ -6,6 +6,9 @@ from PIL import Image, ImageOps
 import numpy as np
 import pandas as pd
 
+# フォントの設定
+plt.rcParams['font.family'] = 'IPAexGothic'
+
 # モデルとクラスの読み込み
 model = load_model('keras_model.h5')
 class_names = ["ペットボトル", "ビニール袋", "段ボール", "カイロ", "紙パック"]
