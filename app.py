@@ -6,10 +6,6 @@ from PIL import Image, ImageOps
 import numpy as np
 import pandas as pd
 
-# フォントの設定
-plt.rcParams['font.sans-serif'] = ['IPAexGothic']
-plt.rcParams['font.family'] = 'IPAexGothic'
-
 # モデルとクラスの読み込み
 model = load_model('keras_model.h5')
 class_names = ["ペットボトル", "ビニール袋", "段ボール", "カイロ", "紙パック"]
@@ -73,21 +69,18 @@ if img_file is not None:
             prediction = model.predict(data)
 
         # プロットの初期化
-        fig, ax = plt.subplots(figsize=(12, 4))
+        fig, ax = plt.subplots(figsize=(8, 2))
 
         # 棒グラフのプロット
         bar_labels = class_names
         bar_probs = prediction[0]
 
-        ax.bar(bar_labels, bar_probs, label='確率')
+        ax.bar(bar_labels, bar_probs, label='Probability')
 
         # 軸ラベルとタイトルの設定
-        ax.set_xlabel('クラス', fontname='IPAexGothic')
-        ax.set_ylabel('確率', fontname='IPAexGothic')
-
-        #グラフのラベルを表示
-        ax.bar(bar_labels,bar_probs,label='確率')
-
+        ax.set_xlabel('Class')
+        ax.set_ylabel('Probability')
+        
         # グリッドを表示
         ax.grid(True)
 
