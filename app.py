@@ -85,6 +85,9 @@ if img_file is not None:
         ax.set_xlabel('クラス', fontname='IPAexGothic')
         ax.set_ylabel('確率', fontname='IPAexGothic')
 
+        #グラフのラベルを表示
+        ax.bar(bar_labels,bar_probs,label='確率')
+
         # グリッドを表示
         ax.grid(True)
 
