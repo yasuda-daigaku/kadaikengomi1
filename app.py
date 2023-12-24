@@ -8,7 +8,7 @@ import pandas as pd
 
 # モデルとクラスの読み込み
 model = load_model('keras_model.h5')
-class_names = ["ペットボトル", "ビニール袋", "段ボール", "カイロ", "紙パック"]
+class_names = ["PET Bottle", "Plastic Bag", "Cardboard", "Hand Warmer", "Paper Pack"]
 
 # ゴミの捨て方とリサイクル方法の関数
 def get_disposal_method(class_name):
