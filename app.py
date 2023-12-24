@@ -71,12 +71,15 @@ if img_file is not None:
         # プロットの初期化
         fig, ax = plt.subplots(figsize=(12, 4))
 
-        # 軸ラベルの設定
-        ax.set_ylabel('確率')
-        ax.set_xlabel('クラス')
+        # 棒グラフのプロット
+        bar_labels = class_names
+        bar_probs = prediction[0]
 
-        # データをプロット
-        ax.bar(class_names, prediction[0], color='blue')
+        ax.bar(bar_labels, bar_probs)
+
+        # 軸ラベルとタイトルの設定
+        ax.set_xlabel('クラス')
+        ax.set_ylabel('確率')
 
         # グリッドを表示
         ax.grid(True)
