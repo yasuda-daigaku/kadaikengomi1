@@ -25,11 +25,11 @@ def get_disposal_method(class_name):
 
 def get_recycle_method(class_name):
     recycle_method = {
-        "ペットボトル": "・リサイクル工場で洗浄後細かく砕かれフレークという原料になります、このフレークからペットボトルや様々なものに加工れます、例えば食品トレーや卵パック、衣料品などになります",
+        "ペットボトル": "・リサイクル工場で洗浄後細かく砕かれフレークという原料になります。このフレークからペットボトルや様々なものに加工れます、例えば食品トレーや卵パック、衣料品などになります。",
         "ビニール袋": "プラスチック製品として分類されほかの製品と一緒に溶かされ再生プラスチックとして活用されます。",
         "段ボール": "回収された段ボールは水につけ砂やプラスチックなどの異質を取り除き乾燥させ最後にプレス機にかけたら新しい段ボールとして再利用されます。",
         "カイロ": "カイロは、不燃ごみとして捨てられて、リサイクルされません。",
-        "紙パック": "回収された紙パックは水を加えながら溶かしゴミなどを取り除きます、"
+        "紙パック": "回収された紙パックは水を加えながら溶かしゴミなどを取り除きます。"
     }
     return recycle_method.get(class_name, "特定できるゴミのリサイクル方法がありません。")
 
@@ -78,8 +78,11 @@ if img_file is not None:
         ax.bar(bar_labels, bar_probs, label='Probability')
 
         # 軸ラベルとタイトルの設定
-        ax.set_xlabel('Class')
-        ax.set_ylabel('Probability')
+        ax.set_xlabel('Class', fontsize=16)
+        ax.set_ylabel('Probability', fontsize=16)
+
+        # タイトルもフォントサイズを指定して設定
+        ax.set_title("Prediction Probability", fontsize=20)
         
         # グリッドを表示
         ax.grid(True)
