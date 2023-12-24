@@ -69,7 +69,7 @@ if img_file is not None:
             prediction = model.predict(data)
 
         # プロットの初期化
-        fig, ax = plt.subplots(figsize=(8, 6))
+        fig, ax = plt.subplots(figsize=(12, 4))
 
         # 軸ラベルの設定
         ax.set_ylabel('確率')
