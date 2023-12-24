@@ -84,7 +84,7 @@ if img_file is not None:
         df_prob = df_prob.T.reset_index()
         df_prob.columns = ['クラス', '確率']
         df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.3f}%")
-        st.write(df_prob)
+        st.table(df_prob)
 
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
