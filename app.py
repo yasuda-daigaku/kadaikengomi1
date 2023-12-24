@@ -20,11 +20,11 @@ def get_disposal_method(class_name):
     return disposal_methods.get(class_name, "特定できるゴミの捨て方がありません。")
 
 def get_recycle_method(class_name):
-    recycle_method = {"ペットボトル": "ペットボトルのリサイクルは...",
-                      "ビニール袋": "ビニール袋のリサイクルは...",
-                      "段ボール": "段ボールのリサイクルは...",
-                      "カイロ": "カイロのリサイクルは...",
-                      "紙パック": "紙パックのリサイクルは..."}
+    recycle_method = {"ペットボトル": "・リサイクル工場で洗浄後細かく砕かれフレークという原料になります、このフレークからペットボトルや様々なものに加工れます、例えば食品トレーや卵パック、衣料品などになります",
+                      "ビニール袋": "プラスチック製品として分類されほかの製品と一緒に溶かされ再生プラスチックとして活用されます。",
+                      "段ボール": "回収された段ボールは水につけ砂やプラスチックなどの異質を取り除き乾燥させ最後にプレス機にかけたら新しい段ボールとして再利用されます。",
+                      "カイロ": "カイロは、不燃ごみとして捨てられて、リサイクルされません。",
+                      "紙パック": "回収された紙パックは水を加えながら溶かしゴミなどを取り除きます、"}
     return recycle_method.get(class_name, "特定できるゴミのリサイクル方法がありません。")
 
 # Streamlitアプリの設定
@@ -62,19 +62,24 @@ if img_file is not None:
         else:
             prediction = model.predict(data)
 
+        # プロットの初期化
+        fig, (ax, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+
         # 軸ラベルの設定
-        ax.set_xlabel('確率', fontdict=font_dict)
-        ax2.set_xlabel('確率', fontdict=font_dict)
-        
+        ax.set_xlabel('確率')
+        ax2.set_xlabel('確率')
+
         # 凡例の表示
         ax.legend(loc='upper right')
         ax2.legend(loc='upper left')
         
-        st.pyplot()
+        st.pyplot(fig)
 
         # 一覧表の表示
         st.subheader('一覧表')
-        df_prob = pd.DataFrame(bar_probs, bar_labels, columns=['確率'])
+        df_prob = pd.DataFrame(prediction, columns=class_names)
+        df_prob = df_prob.T.reset_index()
+        df_prob.columns = ['クラス', '確率']
         df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.3f}%")
         st.write(df_prob)
 
