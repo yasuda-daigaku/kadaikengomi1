@@ -79,7 +79,7 @@ if img_file is not None:
         bar_labels = class_names
         bar_probs = prediction[0]
 
-        ax.bar(bar_labels, bar_probs)
+        ax.bar(bar_labels, bar_probs, label='確率')
 
         # 軸ラベルとタイトルの設定
         ax.set_xlabel('クラス', fontname='IPAexGothic')
