@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 
 # フォントの設定
+plt.rcParams['font.sans-serif'] = ['IPAexGothic']
 plt.rcParams['font.family'] = 'IPAexGothic'
 
 # モデルとクラスの読み込み
@@ -81,8 +82,8 @@ if img_file is not None:
         ax.bar(bar_labels, bar_probs)
 
         # 軸ラベルとタイトルの設定
-        ax.set_xlabel('クラス')
-        ax.set_ylabel('確率')
+        ax.set_xlabel('クラス', fontname='IPAexGothic')
+        ax.set_ylabel('確率', fontname='IPAexGothic')
 
         # グリッドを表示
         ax.grid(True)
