@@ -11,17 +11,27 @@ model = load_model('keras_model.h5')
 class_names = ["ペットボトル", "ビニール袋", "段ボール", "カイロ", "紙パック"]
 
 # ゴミの捨て方とリサイクル方法の関数
-def get_disposal_method(class_name):
-    disposal_methods = {
-        "ペットボトル": "ジュースや調味料が入っていたペットボトルは、「PET」表記のあるものはリサイクルできます。また、液体が入ったまま捨ててはいけません。\n"
-                       "ラベル・キャップは外してプラごみへ捨ててください。",
-        "ビニール袋": "プラごみですが、汚れが酷いものは燃えるごみとして捨ててください。",
-        "段ボール": "つぶして重ねて紙ひもでしばるか紙ぶくろに入れてください。また、お菓子などの薄い紙製の容器と一緒に重ねて出すことができます。\n"
-                       "また、過度に汚れ・水濡れが酷いもの、絵の具が塗られたもの、ロウ引き段ボールと呼ばれる防水加工されたものなどはリサイクルできないので可燃ごみへ捨ててください。",
-        "カイロ": "鉄の化学反応によって発熱し、さらに中身は鉄なので不燃ごみとして捨ててください。",
-        "紙パック": "洗って切り開き、束ねて紙ひもでしばるか紙ぶくろに入れてください。ただし、内側がアルミコーティングされたものは不燃ごみとして捨ててください。"
-    }
-    return disposal_methods.get(class_name, "特定できるゴミの捨て方がありません。")
+
+def get_disposal_method(file_path, start_delimiter, end_delimiter):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        inside_target = False
+        extracted_text = ""
+
+        for line in file:
+            if start_delimiter in line:
+                inside_target = True
+                # デリミタより前の部分を抽出
+                extracted_text += line.split(start_delimiter, 1)[1].strip()
+            elif end_delimiter in line:
+                inside_target = False
+                # デリミタより前の部分を抽出
+                extracted_text += line.split(end_delimiter, 1)[0].strip()
+                break  # end_delimiterが見つかったら終了
+            elif inside_target:
+                # デリミタがない場合はその行全体を抽出
+                extracted_text += line.strip()
+
+    return extracted_text
 
 def get_recycle_method(class_name):
     recycle_method = {
@@ -94,16 +104,20 @@ if img_file is not None:
         df_prob = pd.DataFrame(prediction, columns=class_names)
         df_prob = df_prob.T.reset_index()
         df_prob.columns = ['クラス', '確率']
-        df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.2f}%")
+        df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.3f}%")
         st.table(df_prob)
+
+        detected_classes = [class_names[idx] for idx, prob in enumerate(prediction[0]) if prob >= 0.6]
+
+        start_delimiter = 'start_' + 'detected_classes'
+        end_delimiter = 'end_' + 'detected_classes'
 
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
-        detected_classes = [class_names[idx] for idx, prob in enumerate(prediction[0]) if prob >= 0.6]
         for class_name in detected_classes:
             st.subheader(f"{class_name}の説明:")
             st.write(f"{class_name}が60%以上の確率で検出されました。")
-            st.write(f"ゴミの捨て方の説明: {get_disposal_method(class_name)}")
+            st.write(f"ゴミの捨て方の説明: {get_disposal_method('disposal_methods.txt', start_delimiter, end_delimiter)}")
             st.write("")
 
         # ゴミのリサイクル過程
