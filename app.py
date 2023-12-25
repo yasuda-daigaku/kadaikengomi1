@@ -117,7 +117,7 @@ if img_file is not None:
         for class_name in detected_classes:
             st.subheader(f"{class_name}の説明:")
             st.write(f"{class_name}が60%以上の確率で検出されました。")
-            st.write(f"ゴミの捨て方の説明: {get_disposal_method('disposal_methods.txt', start_delimiter, end_delimiter)}")
+            st.write(f"ゴミの捨て方の説明: {get_disposal_method('[disposal_methods.txt](https://github.com/yasuda-daigaku/kadaikengomi1/blob/main/disposal_methods.txt)', start_delimiter, end_delimiter)}")
             st.write("")
 
         # ゴミのリサイクル過程
