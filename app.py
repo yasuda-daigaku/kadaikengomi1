@@ -94,7 +94,7 @@ if img_file is not None:
         df_prob = pd.DataFrame(prediction, columns=class_names)
         df_prob = df_prob.T.reset_index()
         df_prob.columns = ['クラス', '確率']
-        df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.3f}%")
+        df_prob['確率'] = df_prob['確率'].apply(lambda x: f"{x*100:.2f}%")
         st.table(df_prob)
 
         # 説明文の表示
