@@ -109,15 +109,15 @@ if img_file is not None:
 
         detected_classes = [class_names[idx] for idx, prob in enumerate(prediction[0]) if prob >= 0.6]
 
-        start_delimiter = 'start_' + 'detected_classes'
-        end_delimiter = 'end_' + 'detected_classes'
+        start_delimiter = '===start_' + detected_classes + '==='
+        end_delimiter = '===end_' + detected_classes + '==='
 
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
         for class_name in detected_classes:
             st.subheader(f"{class_name}の説明:")
             st.write(f"{class_name}が60%以上の確率で検出されました。")
-            st.write(f"ゴミの捨て方の説明: {get_disposal_method('[disposal_methods.txt](https://github.com/yasuda-daigaku/kadaikengomi1/blob/main/disposal_methods.txt)', start_delimiter, end_delimiter)}")
+            st.write(f"ゴミの捨て方の説明: {get_disposal_method('disposal_methods.txt', start_delimiter, end_delimiter)}")
             st.write("")
 
         # ゴミのリサイクル過程
