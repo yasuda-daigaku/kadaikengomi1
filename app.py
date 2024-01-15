@@ -16,7 +16,6 @@ def get_disposal_method(file_path, start_delimiter, end_delimiter):
     with open(file_path, 'r', encoding='utf-8') as file:
         inside_target = False
         extracted_text = ""
-
         for line in file:
             if start_delimiter in line:
                 inside_target = True
@@ -33,15 +32,25 @@ def get_disposal_method(file_path, start_delimiter, end_delimiter):
 
     return extracted_text
 
-def get_recycle_method(class_name):
-    recycle_method = {
-        "ペットボトル": "・リサイクル工場で洗浄後細かく砕かれフレークという原料になります。このフレークからペットボトルや様々なものに加工れます、例えば食品トレーや卵パック、衣料品などになります。",
-        "ビニール袋": "プラスチック製品として分類されほかの製品と一緒に溶かされ再生プラスチックとして活用されます。",
-        "段ボール": "回収された段ボールは水につけ砂やプラスチックなどの異質を取り除き乾燥させ最後にプレス機にかけたら新しい段ボールとして再利用されます。",
-        "カイロ": "カイロは、不燃ごみとして捨てられて、リサイクルされません。",
-        "紙パック": "回収された紙パックは水を加えながら溶かしゴミなどを取り除きます。"
-    }
-    return recycle_method.get(class_name, "特定できるゴミのリサイクル方法がありません。")
+def get_recycle_method(file_path, start_delimiter, end_delimiter):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        inside_target = False
+        extracted_text = ""
+        for line in file:
+            if start_delimiter in line:
+                inside_target = True
+                # デリミタより前の部分を抽出
+                extracted_text += line.split(start_delimiter, 1)[1].strip()
+            elif end_delimiter in line:
+                inside_target = False
+                # デリミタより前の部分を抽出
+                extracted_text += line.split(end_delimiter, 1)[0].strip()
+                break  # end_delimiterが見つかったら終了
+            elif inside_target:
+                # デリミタがない場合はその行全体を抽出
+                extracted_text += line.strip()
+
+    return extracted_text
 
 # Streamlitアプリの設定
 st.set_option("deprecation.showfileUploaderEncoding", False)
@@ -114,11 +123,15 @@ if img_file is not None:
         end_delimiter = '===end_' + '_'.join(detected_classes) + '==='
 
 
+        #ゴミの分別結果
+        st.subheader('ゴミの分別結果')
+        st.write(f"{class_name}が60%以上の確率で検出されました。")
+        st.write("")
+
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
         for class_name in detected_classes:
             st.subheader(f"{class_name}の説明:")
-            st.write(f"{class_name}が60%以上の確率で検出されました。")
             st.write(f"ゴミの捨て方の説明: {get_disposal_method('disposal_methods.txt', start_delimiter, end_delimiter)}")
             st.write("")
 
@@ -126,4 +139,5 @@ if img_file is not None:
         st.subheader('リサイクル過程')
         for class_name in detected_classes:
             st.subheader(f"{class_name}のリサイクル過程:")
-            st.write(f"ゴミのリサイクル方法の説明: {get_recycle_method(class_name)}")
+            st.write(f"ゴミのリサイクル方法の説明: {get_recycle_method('recycle_methods.txt', start_delimiter, end_delimiter)}")
+            st.write("")
