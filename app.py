@@ -109,8 +109,10 @@ if img_file is not None:
 
         detected_classes = [class_names[idx] for idx, prob in enumerate(prediction[0]) if prob >= 0.6]
 
-        start_delimiter = '===start_' + detected_classes + '==='
-        end_delimiter = '===end_' + detected_classes + '==='
+        # detected_classesがリストであるため、joinを使って文字列に変換
+        start_delimiter = '===start_' + '_'.join(detected_classes) + '==='
+        end_delimiter = '===end_' + '_'.join(detected_classes) + '==='
+
 
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
