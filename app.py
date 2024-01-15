@@ -126,8 +126,8 @@ if img_file is not None:
         #ゴミの分別結果
         st.subheader('ゴミの分別結果')
         if detected_classes:
-        st.write(f"{detected_classes[0]}が60%以上の確率で検出されました。")
-        st.write("")
+            st.write(f"{detected_classes[0]}が60%以上の確率で検出されました。")
+            st.write("")
 
         # 説明文の表示
         st.subheader('ゴミの捨て方の説明')
